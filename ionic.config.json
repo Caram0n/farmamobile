@@ -1,0 +1,7 @@
+{
+  "name": "farmamobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
