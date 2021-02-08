@@ -1,0 +1,50 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-button text="" (click)="cerrarModal()">
+          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">Detalle de la familia</ion-title>
+  </ion-toolbar>
+ </ion-header>
+
+
+<ion-content class="background">
+  <ion-card color="success" mode="ios" *ngIf="!edit">    
+    <ion-card-content >
+      <h1 >Descripción: {{familia.descripcion}}</h1>      
+      <h2>Impuestos: {{ familia.impuesto }}</h2>   
+
+      <div class="ion-text-center">
+        <ion-button (click)="editar()" expand="block" type="submit" color="">
+          Editar
+          <ion-icon slot="start" name="create"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card *ngIf="edit">
+    <ion-card-header>
+      <h1>{{familia.descripcion}}</h1>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item class="itemInput" >
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-input [(ngModel)]="familia.descripcion" name="descripcion"></ion-input>
+      </ion-item>  
+      <ion-item class="itemInput" >
+        <ion-label position="floating">Impuestos</ion-label>
+        <ion-input [(ngModel)]="familia.impuesto" name="impuesto"></ion-input>
+      </ion-item>
+     
+      <ion-button (click)="guardarItem()" expand="block" shape="round">
+        Actualizar Familia
+      </ion-button>
+    </ion-card-content>  
+  </ion-card>
+
+</ion-content>
+

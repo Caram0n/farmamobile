@@ -1,0 +1,86 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-button text="" (click)="cerrarModal()">
+          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">Detalle de los usuarios</ion-title>
+  </ion-toolbar>
+ </ion-header>
+
+ <ion-content class="background">
+  <ion-card color="success" mode="ios" *ngIf="!edit">    
+    <ion-card-content >
+      <h1 >Nombre: {{usuario.nombre}}</h1>      
+      <h2>DNI: {{ usuario.dni }}</h2>
+      <h2>Móvil: {{ usuario.movil }}</h2>
+      <h2>Correo electrónico: {{ usuario.email }}</h2>
+      <h2>Contraseña: {{ usuario.password }}</h2>
+      <h2>Rol: {{ usuario.rol }}</h2>
+
+      <div class="ion-text-center">
+        <ion-button (click)="editar()" expand="block" type="submit" color="">
+          Editar
+          <ion-icon slot="start" name="create"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card *ngIf="edit">
+    <ion-card-header>
+      <h1>{{usuario.nombre}}</h1>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item class="itemInput" >
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input [(ngModel)]="usuario.nombre" name="nombre"></ion-input>
+      </ion-item>  
+      <ion-item class="itemInput" >
+        <ion-label position="floating">DNI</ion-label>
+        <ion-input [(ngModel)]="usuario.dni" name="dni"></ion-input>
+      </ion-item>
+      <ion-item class="itemInput" >
+        <ion-label position="floating">Móvil</ion-label>
+        <ion-input [(ngModel)]="usuario.movil" name="movil"></ion-input>
+      </ion-item>
+      <ion-item class="itemInput" >
+        <ion-label position="floating">Correo electrónico</ion-label>
+        <ion-input [(ngModel)]="usuario.email" name="email"></ion-input>
+      </ion-item>
+      <ion-item class="itemInput" >
+        <ion-label position="floating">DNI</ion-label>
+        <ion-input [(ngModel)]="usuario.password" name="password" type="password"></ion-input>
+      </ion-item>
+          
+      
+        <ion-list>
+          <ion-radio-group name="auto" value="tecnico" [(ngModel)]="usuario.rol" name="rol">
+            <ion-list-header>
+              <ion-label>Rol</ion-label>
+            </ion-list-header>
+            <ion-item>
+              <ion-label>Farmacéutico</ion-label>
+              <ion-radio value="farmaceutico"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Adjunto</ion-label>
+              <ion-radio value="adjunto"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Técnico</ion-label>
+              <ion-radio value="tecnico"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+     
+     
+      <ion-button (click)="guardarItem()" expand="block" shape="round">
+        Actualizar Usuario
+      </ion-button>
+    </ion-card-content>  
+  </ion-card>
+
+</ion-content>

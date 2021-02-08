@@ -1,0 +1,33 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="primary" menu="first">
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="'/../listado'">
+        <ion-icon slot="icon-only" name="storefront" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">Ventas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <div *ngFor="let producto of pedido.productos">
+    <app-item-carrito [productoPedido]="producto"></app-item-carrito>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-grid class="ion-justify-content-center">
+    <ion-row >
+      <ion-col class="normal text-center" size="6" style="border-right: 1px solid #6c757d;"><h2><strong>Cantidad: {{cantidad}}</strong></h2>   </ion-col>
+      <ion-col class="normal text-center" size="6"><h2><strong>Total: {{total}} €</strong></h2>  </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-button (click)="pedir()" expand="block"  shape="round" color="primary">
+    Pagar
+  </ion-button>
+</ion-footer>

@@ -1,0 +1,64 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button text="" (click)="cerrarModal()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">Nuevo Sitio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <ion-card>
+    <ion-card-content>      
+        <div>
+          <img [src]="preview" *ngIf="foto">
+        </div>
+        <div class="ion-text-center">
+          <ion-button (click)="sacarFoto()" type="button">
+            Foto&nbsp;&nbsp;
+            <ion-icon slot="start" name="camera"></ion-icon>
+          </ion-button>
+        </div>
+        <ion-item class="itemInput">
+          <ion-label position="floating">Código nacional</ion-label>
+          <ion-input [(ngModel)]="newItem.codigo" name="codigo" required></ion-input>
+        </ion-item>
+        <ion-item class="itemInput">
+          <ion-label position="floating">Descripcion</ion-label>
+          <ion-input [(ngModel)]="newItem.descripcion" name="descripcion"></ion-input>
+        </ion-item>
+        <ion-item class="itemInput">
+          <ion-label position="floating">Precio albarán</ion-label>
+          <ion-input [(ngModel)]="newItem.precio_Alb" name="precio_Alb" type="number"></ion-input>
+        </ion-item>
+        <ion-item class="itemInput">
+          <ion-label position="floating">Familia</ion-label>
+          <ion-select interface="action-sheet" placeholder="Seleccione una familia" [(ngModel)]="newItem.familia" (ionChange)="datosFamilia($event,fam)">
+            <ion-select-option *ngFor="let fam of familia;let i  index" [value]="fam">            
+              {{fam.descripcion}}              
+            </ion-select-option>
+            
+          </ion-select>
+        </ion-item>
+        <ion-item class="itemInput">
+          <ion-label position="floating">Stock</ion-label>
+          <ion-input [(ngModel)]="newItem.stock" name="stock" type="number"></ion-input>
+        </ion-item>
+        <ion-item class="itemInput">
+          <ion-label position="floating">Fecha de caducidad</ion-label>
+          <ion-datetime displayFormat="DD/MMMM/YYYY" max="3000-12-31"  [(ngModel)]="newItem.fecha_cad" ></ion-datetime>
+        </ion-item>
+        <!-- <ion-item class="itemInput">
+          <ion-label position="floating">Sinónimo</ion-label>
+          <ion-input [(ngModel)]="newItem.sinonimo" name="sinonimo"></ion-input>
+        </ion-item> -->
+        <ion-button (click)="save()">
+          Guardar Producto
+          <ion-icon slot="start" name="save"></ion-icon>
+        </ion-button>
+      
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,22 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-button text="" (click)="cerrarModal()">
+          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">Detalle de cajas</ion-title>
+  </ion-toolbar>
+ </ion-header>
+
+<ion-content>
+ 
+   <ion-list *ngFor="let pedido of caja.pedido">
+     <ion-item>
+      <ion-label>{{pedido.fecha.seconds * 1000 | date:'shortTime'}}</ion-label>
+      <h3>{{pedido.precioTotal}} €</h3>
+     </ion-item>
+   </ion-list>
+
+
+</ion-content>

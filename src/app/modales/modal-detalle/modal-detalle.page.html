@@ -1,0 +1,92 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-button text="" (click)="cerrarModal()">
+          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">Detalle del producto</ion-title>
+  </ion-toolbar>
+  
+ </ion-header>
+
+
+<ion-content class="background">
+  
+  <ion-card color="success" mode="ios" *ngIf="!edit">
+    <img [src]="producto.foto" *ngIf="producto.foto">
+    <ion-card-content >
+      <h1 >Descripción: {{producto.descripcion}}</h1>
+      <h2 >Código: {{producto.codigo}}</h2>      
+      <h2 >Precio de albarán: {{producto.precio_Alb}} €</h2>
+      <h2>Impuestos: {{ producto.impuestos }}</h2>
+      <h2>PVP: {{ producto.pvp }} €</h2>
+      <h2 >Stock: {{producto.stock}} unidades</h2>
+      <h2 >Fecha de caducidad: {{producto.fecha_cad.substr(0,9)}}</h2>
+      <h2 >Sinónimo: {{producto.sinonimo}}</h2>
+
+      <div class="ion-text-center">
+        <ion-button (click)="editar()" expand="block" type="submit">
+          Editar
+          <ion-icon slot="start" name="create"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+
+
+
+  <ion-card *ngIf="edit">
+    <ion-card-header>
+      <h1>{{producto.descripcion}}</h1>
+    </ion-card-header>
+    <ion-card-content>
+      <div>
+        <img [src]="producto.foto"/>
+      </div>
+      <div class="ion-text-center">
+        <ion-button (click)="sacarFoto()" type="button">
+          Foto&nbsp;&nbsp;
+          <ion-icon slot="start" name="camera"></ion-icon>
+        </ion-button>
+      </div>
+      <ion-item class="itemInput">
+        <ion-label position="floating">Codigo nacional</ion-label>
+        <ion-input [(ngModel)]="producto.codigo" name="codigo"></ion-input>
+      </ion-item>
+      <ion-item class="itemInput" >
+        <ion-label position="floating" >Descripcion</ion-label>
+        <ion-input [(ngModel)]="producto.descripcion" name="descripcion"></ion-input>
+      </ion-item>
+      <ion-item class="itemInput">
+        <ion-label position="floating">Precio albarán</ion-label>
+        <ion-input [(ngModel)]="producto.precio_Alb" name="precio_Alb"></ion-input>        
+      </ion-item>
+      <ion-item class="itemInput">
+        <ion-label position="floating" >Familia</ion-label>
+        <ion-select interface="action-sheet" placeholder="Seleccione una familia" [(ngModel)]="producto.familia">
+          <ion-select-option *ngFor="let fam of familia" [value]="fam.descripcion">
+            {{fam.descripcion}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="itemInput">
+        <ion-label position="floating" >Stock</ion-label>
+        <ion-input [(ngModel)]="producto.stock" name="stock"></ion-input>
+      </ion-item>
+      <ion-item class="itemInput">
+        <ion-label position="floating" >Fecha de caducidad</ion-label>
+        <ion-datetime displayFormat="DD/MMMM/YYYY" max="3000-12-31"  [(ngModel)]="producto.fecha_cad" ></ion-datetime>
+      </ion-item>
+      <!-- <ion-item class="itemInput">
+        <ion-label >Sinónimo</ion-label>
+        <ion-input [(ngModel)]="newItem.sinonimo" name="sinonimo">{{producto.sinonimo}}</ion-input>
+      </ion-item> -->
+      <ion-button (click)="guardarItem()" expand="block" shape="round">
+        ACtualizar Producto
+      </ion-button>
+    </ion-card-content>  
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,22 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button text="" (click)="cerrarModal()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">Venta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let producto of productos">
+    <ion-card-content>
+      <h2>{{producto.producto.descripcion}}</h2>
+      <h2>Cantidad: {{producto.cantidad}}</h2>
+      <h2>PVP: {{producto.producto.pvp}} €</h2>
+    </ion-card-content>
+  </ion-card>
+  <h1>TOTAL: {{pedido.precioTotal}} €</h1>
+
+</ion-content>
