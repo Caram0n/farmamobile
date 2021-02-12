@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, ToastController, ModalController } from '@ionic/angular';
 import { FirebaseDbService } from '../../services/firebase-db.service';
-import { Pedido, Producto } from '../../models/interface';
+import {  Producto } from '../../models/interface';
 
 @Component({
   selector: 'app-modal-detalle-historico',
@@ -10,7 +10,7 @@ import { Pedido, Producto } from '../../models/interface';
 })
 export class ModalDetalleHistoricoPage implements OnInit {
   
-  pedido: any;
+  venta: any;
   productos: Producto[] = [];
 
   constructor(
@@ -22,7 +22,7 @@ export class ModalDetalleHistoricoPage implements OnInit {
 
   ngOnInit() {
     this.getProductos();
-    console.log(this.pedido)
+    console.log(this.venta)
   }
 
   cerrarModal() {
@@ -30,7 +30,7 @@ export class ModalDetalleHistoricoPage implements OnInit {
   }
 
   getProductos() {
-    this.productos = this.pedido.productos;
+    this.productos = this.venta.productos;
     console.log(this.productos);
     }
   

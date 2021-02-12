@@ -9,13 +9,13 @@
         <ion-icon slot="icon-only" name="storefront" color="primary"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title color="primary">Ventas</ion-title>
+    <ion-title color="primary">Pedidos a proveedores</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="background">
-  <div *ngFor="let producto of venta.productos">
-    <app-item-carrito [productoVenta]="producto"></app-item-carrito>
+<ion-content>
+  <div *ngFor="let producto of pedidoP.productos">
+    <app-item-carrito [productoPedido]="producto"></app-item-carrito>
   </div>
 </ion-content>
 
@@ -28,6 +28,6 @@
   </ion-grid>
 
   <ion-button (click)="pedir()" expand="block"  shape="round" color="primary">
-    Pagar
+    Enviar pedido
   </ion-button>
 </ion-footer>

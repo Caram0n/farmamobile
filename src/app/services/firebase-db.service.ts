@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Orden } from '../models/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,13 @@ export class FirebaseDbService {
   getCollectionQuery<tipo>(enlace: string, parametro: string, condicion: any, busqueda: string){
     const collection = this.asf.collection<tipo>(enlace,
       ref => ref.where( parametro, condicion, busqueda));
+      return collection.valueChanges();
+  }
+
+
+  getCollectionSort<tipo>(enlace: string, parametro: string, orden: Orden){
+    const collection = this.asf.collection<tipo>(enlace,
+      ref => ref.orderBy(parametro, orden));
       return collection.valueChanges();
   }
 

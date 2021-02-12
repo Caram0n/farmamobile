@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ItemCarritoComponent } from './item-carrito/item-carrito.component';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+import { ItemPedidoComponent } from './item-pedido/item-pedido.component';
 
 
 
 @NgModule({
   declarations: [
-    ItemCarritoComponent
+    ItemCarritoComponent,
+    ItemPedidoComponent
   ],
   imports: [
     CommonModule,
@@ -16,7 +18,8 @@ import { RouterModule } from '@angular/router';
     RouterModule
   ],
   exports: [
-    ItemCarritoComponent
+    ItemCarritoComponent,
+    ItemPedidoComponent
   ]
 })
 export class ComponentesModule { }

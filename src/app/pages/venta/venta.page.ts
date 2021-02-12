@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
 import { FirebaseDbService } from '../../services/firebase-db.service';
-import { Pedido, Caja } from '../../models/interface';
+import { Venta, Caja } from '../../models/interface';
 import { CarritoService } from '../../services/carrito.service';
 import { Subscription } from 'rxjs';
-import { analyzeFileForInjectables } from '@angular/compiler';
 import { CajaService } from '../../services/caja.service';
 
 @Component({
@@ -14,7 +13,7 @@ import { CajaService } from '../../services/caja.service';
 })
 export class VentaPage implements OnInit, OnDestroy {
 
-  pedido: Pedido;
+  venta: Venta;
   caja: Caja;
   fechaCaja: string = '';
 
@@ -49,7 +48,7 @@ export class VentaPage implements OnInit, OnDestroy {
 
   loadPedido() {
     this.carritoSubscriber = this.carritoService.getCarrito().subscribe(res => {
-      this.pedido = res;
+      this.venta = res;
       this.getTotal();
       this.getCantidad();
     });
@@ -60,7 +59,7 @@ export class VentaPage implements OnInit, OnDestroy {
 
 
   initCarrito() {
-    this.pedido = {
+    this.venta = {
       id: '',
       productos: [],
       precioTotal: null,
@@ -72,7 +71,7 @@ export class VentaPage implements OnInit, OnDestroy {
 
   getTotal() {
     this.total = 0;
-    this.pedido.productos.forEach(producto => {
+    this.venta.productos.forEach(producto => {
       this.total = (producto.producto.pvp * producto.cantidad) + this.total;
       console.log(producto.producto);
     });
@@ -80,23 +79,23 @@ export class VentaPage implements OnInit, OnDestroy {
 
   getCantidad() {
     this.cantidad = 0;
-    this.pedido.productos.forEach(producto => {
+    this.venta.productos.forEach(producto => {
       this.cantidad = producto.cantidad + this.cantidad;
     });
 
   }
 
   pedir() {
-    if (!this.pedido.productos.length) {
+    if (!this.venta.productos.length) {
       //console.log("Añada productos al carrito");
       this.presentToast('Añada productos al carrito', 2000);
       return;
     }
     //Crear venta
-    this.pedido.fecha = new Date();
-    this.pedido.precioTotal = this.total;
-    this.pedido.id = this.dbFirebase.createId();
-    this.pedido.productos.forEach(producto => {
+    this.venta.fecha = new Date();
+    this.venta.precioTotal = this.total;
+    this.venta.id = this.dbFirebase.createId();
+    this.venta.productos.forEach(producto => {
       let prodStock = producto.producto.stock - producto.cantidad
       if (prodStock <= 0) {
         //console.log("No hay suficiente stock de ", producto.producto.descripcion);
@@ -105,10 +104,10 @@ export class VentaPage implements OnInit, OnDestroy {
       }
       else {
         const path = 'Pedidos';
-        this.dbFirebase.createDocument(this.pedido, path, this.pedido.id).then(() => {
-          this.pedido.productos.forEach(producto => {
+        this.dbFirebase.createDocument(this.venta, path, this.venta.id).then(() => {
+          this.venta.productos.forEach(producto => {
             this.dbFirebase.updateDocument(producto.producto, 'Items', producto.producto.codigo)
-            this.cajaService.addVenta(this.pedido);
+            this.cajaService.addVenta(this.venta);
           });
 
 

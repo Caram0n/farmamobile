@@ -27,7 +27,7 @@ export class CajasPage implements OnInit {
 
   getCajas(){
     const enlace = 'Cajas';
-    this.dbFirebase.getCollection<Caja>(enlace).subscribe(res => {
+    this.dbFirebase.getCollectionSort<Caja>(enlace, 'id', 'desc').subscribe(res => {
       this.cajas = res;
       console.log(this.cajas)
     })

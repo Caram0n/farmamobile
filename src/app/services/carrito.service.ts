@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Pedido, ProductoPedido, Producto, Usuario } from '../models/interface';
+import { Venta, ProductoVenta, Producto, Usuario } from '../models/interface';
 import { AuthService } from './auth.service';
 import { FirebaseDbService } from './firebase-db.service';
 import { Router } from '@angular/router';
@@ -10,8 +10,8 @@ import { Subject, Observable, Subscription } from 'rxjs';
 })
 export class CarritoService {
 
-  private pedido: Pedido;
-  pedido$ = new Subject<Pedido>();
+  private venta: Venta;
+  venta$ = new Subject<Venta>();
   path = 'carrito';
   uid = '';
   usuario: Usuario;
@@ -29,10 +29,9 @@ export class CarritoService {
       console.log(res);
       if (res !== null) {
         this.uid = res.uid;
-        this.loadUser();
       }
     });
-
+    // this.loadCarrito();
   }
 
   loadUser() {
@@ -49,11 +48,11 @@ export class CarritoService {
     if (this.carritoSubscriber) {
       this.carritoSubscriber.unsubscribe();
     }
-    this.carritoSubscriber = this.dbFirebase.getDocument<Pedido>(this.path, this.uid).subscribe(res => {
+    this.carritoSubscriber = this.dbFirebase.getDocument<Venta>(this.path, this.uid).subscribe(res => {
       console.log(res);
       if (res) {
-        this.pedido = res;
-        this.pedido$.next(this.pedido);
+        this.venta = res;
+        this.venta$.next(this.venta);
       } else {
         this.initCarrito();
       }
@@ -61,45 +60,45 @@ export class CarritoService {
   }
 
   initCarrito() {
-    this.pedido = {
+    this.venta = {
       id: this.uid,
       productos: [],
       precioTotal: null,
       fecha: new Date()
     };
-    this.pedido$.next(this.pedido);
+    this.venta$.next(this.venta);
   }
 
 
-  getCarrito(): Observable<Pedido> {
+  getCarrito(): Observable<Venta> {
     setTimeout(() => {
-      this.pedido$.next(this.pedido);
+      this.venta$.next(this.venta);
     }, 100);
-    return this.pedido$.asObservable();
+    return this.venta$.asObservable();
   }
 
   addProducto(productoInput: Producto) {
     if (this.uid.length) {
-      const item = this.pedido.productos.find(productoPedido => {
-        return (productoPedido.producto.codigo === productoInput.codigo)
+      const item = this.venta.productos.find(productoVenta => {
+        return (productoVenta.producto.codigo === productoInput.codigo)
       });
       if (item !== undefined) {
         item.cantidad++;
       } else {
-        const add: ProductoPedido = {
+        const add: ProductoVenta = {
           cantidad: 1,
           producto: productoInput
         }
-        this.pedido.productos.push(add);
+        this.venta.productos.push(add);
       }
     } else {
       this.router.navigate(['/login']);
       return;
     }
-    this.pedido$.next(this.pedido);
-    console.log(this.pedido);
+    this.venta$.next(this.venta);
+    console.log(this.venta);
 
-    this.dbFirebase.createDocument(this.pedido, this.path, this.uid).then(() => {
+    this.dbFirebase.createDocument(this.venta, this.path, this.uid).then(() => {
       console.log('guardado con éxito')
     });
 
@@ -108,21 +107,21 @@ export class CarritoService {
   removeProducto(producto: Producto) {
     if (this.uid.length) {
       let position = 0;
-      const item = this.pedido.productos.find((productoPedido, index) => {
+      const item = this.venta.productos.find((productoVenta, index) => {
         position = index;
-        return (productoPedido.producto.codigo === producto.codigo)
+        return (productoVenta.producto.codigo === producto.codigo)
       });
       if (item !== undefined) {
         item.cantidad--;
 
         if (item.cantidad === 0) {
-          this.pedido.productos.splice(position, 1);
+          this.venta.productos.splice(position, 1);
         }
 
 
-        console.log(this.pedido);
+        console.log(this.venta);
 
-        this.dbFirebase.createDocument(this.pedido, this.path, this.uid).then(() => {
+        this.dbFirebase.createDocument(this.venta, this.path, this.uid).then(() => {
           console.log('Eliminado con éxito')
         });
       }
@@ -134,8 +133,8 @@ export class CarritoService {
 
 
   clearCarrito() {
-    const path = 'carrito'
-    this.dbFirebase.deleteDocument(path, this.uid).then(() => {
+    
+    this.dbFirebase.deleteDocument(this.path, this.uid).then(() => {
       this.initCarrito();
     });
   }

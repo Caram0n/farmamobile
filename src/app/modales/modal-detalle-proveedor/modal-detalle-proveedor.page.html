@@ -10,7 +10,7 @@
  </ion-header>
 
 <ion-content>
-  <ion-card>
+  <ion-card *ngIf="!edit">
     <ion-card-content>
       <h2>CIF: {{proveedor.cif}}</h2>
       <h2>Dirección: {{proveedor.direccion}}</h2>
@@ -48,7 +48,7 @@
         <ion-label position="floating">Correo electrónico</ion-label>
         <ion-input [(ngModel)]="proveedor.correo" name="correo"></ion-input>
       </ion-item>
-      <ion-button (click)="guardarItem()" expand="block" shape="round">
+      <ion-button (click)="guardarProveedor()" expand="block" shape="round">
         ACtualizar Proveedor
       </ion-button>
     </ion-card-content>    

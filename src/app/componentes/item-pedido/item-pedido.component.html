@@ -1,0 +1,15 @@
+<ion-card color="primary">
+  <ion-item color="secondary">
+    <ion-label class="subtitulo ion-text-wrap">{{productoPedido.producto.descripcion}}</ion-label>
+    <ion-buttons slot="end">
+      <ion-button (click)="addItem()" class="icon-add" >
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button >
+      <ion-button (click)="removeItem()" class="icon-remove">
+        <ion-icon slot="icon-only" name="remove"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+  <p class="normal m-3">Precio: {{productoPedido.producto.pvp}} € </p>
+  <p class="normal m-3">Cantidad: {{productoPedido.cantidad}}</p>
+</ion-card>

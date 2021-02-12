@@ -6,6 +6,7 @@ import { ModalDetallePage } from '../../modales/modal-detalle/modal-detalle.page
 import { CarritoService } from '../../services/carrito.service';
 import { Producto, Familia } from '../../models/interface';
 import { Subscription } from 'rxjs';
+import { PedidoProveedorService } from '../../services/pedido-proveedor.service';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class ListadoPage implements OnInit, OnDestroy {
     public alertCtrl: AlertController,
     public dbFirebase: FirebaseDbService,
     public toastCtrl: ToastController,
-    public carritoService: CarritoService
+    public carritoService: CarritoService,
+    public pedidoService: PedidoProveedorService
   ) { }
 
   ngOnInit() {
@@ -62,7 +64,7 @@ export class ListadoPage implements OnInit, OnDestroy {
 
   getItems() {
     const enlace = 'Items';
-    this.dbFirebase.getCollection<Producto>(enlace).subscribe(res => {
+    this.dbFirebase.getCollectionSort<Producto>(enlace, 'descripcion', 'asc').subscribe(res => {
       //console.log(res)
       this.items = res;
     });
@@ -130,6 +132,11 @@ export class ListadoPage implements OnInit, OnDestroy {
     this.carritoService.addProducto(item);
   }
 
+
+  addPedido(item: Producto) {
+    this.pedidoService.addProductoPedido(item);
+  }
+
   onSearchChange(event) {
     console.log(event);
     this.textoBuscar = event.detail.value;
@@ -147,11 +154,6 @@ export class ListadoPage implements OnInit, OnDestroy {
         this.items = res;
       }
     });
-  }
-
-  sort(){
-    this.descending = !this.descending;
-    this.order = this.descending ? 1 : -1;
   }
 
 

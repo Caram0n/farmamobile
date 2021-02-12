@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { FirebaseDbService } from '../../services/firebase-db.service';
-import { Pedido, Caja } from '../../models/interface';
+import { Venta } from '../../models/interface';
 import { ModalDetalleHistoricoPage } from '../../modales/modal-detalle-historico/modal-detalle-historico.page';
 
 @Component({
@@ -11,8 +11,7 @@ import { ModalDetalleHistoricoPage } from '../../modales/modal-detalle-historico
 })
 export class HistoricoVentasPage implements OnInit {
 
- pedidos: Pedido[] = [];
- pedidosCaja: Pedido[] = [];
+ ventas: Venta[] = [];
 
 
   constructor(
@@ -29,8 +28,8 @@ export class HistoricoVentasPage implements OnInit {
 
   getVentas(){
     const enlace = 'Pedidos';
-    this.dbFirebase.getCollection<Pedido>(enlace).subscribe(res => {
-      this.pedidos = res;
+    this.dbFirebase.getCollectionSort<Venta>(enlace, 'fecha', 'desc').subscribe(res => {
+      this.ventas = res;
     });
   }
 
@@ -39,7 +38,7 @@ export class HistoricoVentasPage implements OnInit {
   muestraDetalle(item, i) {
     this.modalCtrl.create({
       component: ModalDetalleHistoricoPage,
-      componentProps: { pedido: item, ind: i}
+      componentProps: { venta: item, ind: i}
     }).then((modal) => {
       modal.onDidDismiss().then(() =>{
         this.getVentas();

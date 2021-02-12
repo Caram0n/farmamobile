@@ -1,6 +1,6 @@
 <ion-card color="primary">
   <ion-item color="secondary">
-    <ion-label class="subtitulo ion-text-wrap">{{productoPedido.producto.descripcion}}</ion-label>
+    <ion-label class="subtitulo ion-text-wrap">{{productoVenta.producto.descripcion}}</ion-label>
     <ion-buttons slot="end">
       <ion-button (click)="addCarrito()" class="icon-add" >
         <ion-icon slot="icon-only" name="add"></ion-icon>
@@ -10,6 +10,6 @@
       </ion-button>
     </ion-buttons>
   </ion-item>
-  <p class="normal m-3">Precio: {{productoPedido.producto.pvp}} € </p>
-  <p class="normal m-3">Cantidad: {{productoPedido.cantidad}}</p>
+  <p class="normal m-3">Precio: {{productoVenta.producto.pvp}} € </p>
+  <p class="normal m-3">Cantidad: {{productoVenta.cantidad}}</p>
 </ion-card>

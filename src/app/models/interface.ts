@@ -1,5 +1,4 @@
 export interface Producto {
-
     codigo: string;
     descripcion: string;
     precio_Alb: number;
@@ -10,9 +9,7 @@ export interface Producto {
     fecha_cad: string;
     sinonimo: string;
     foto: string;
-
 }
-
 
 export interface Usuario {
     uid: string;
@@ -24,28 +21,27 @@ export interface Usuario {
     rol: string;
 }
 
-
 export interface Familia {
     codigo: string;
     descripcion: string;
     impuesto: number;
 }
 
-export interface Pedido {
+export interface Venta {
     id: string;
-    productos: ProductoPedido [];
+    productos: ProductoVenta [];
     precioTotal: number;
     fecha: Date;
 }
 
-export interface ProductoPedido {
+export interface ProductoVenta {
     producto: Producto;
     cantidad: number;
 }
 
 export interface Caja {
     id: string;
-    pedido: Pedido [];
+    pedido: Venta [];
     totalCaja: number;
 }
 
@@ -56,5 +52,19 @@ export interface Proveedor {
     telefono: string;
     correo: string;
 }
+
+export interface PedidoProveedores{
+    id: string;
+    productosP: ProductoProveedor[];
+    precioTotal: number;
+    fecha: Date;
+}
+
+export interface ProductoProveedor {
+    producto: Producto;
+    cantidad: number;
+}
+
+export type Orden = 'asc' | 'desc' ;
 
 

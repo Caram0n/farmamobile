@@ -28,3 +28,12 @@
 ion-content.background{
     --background: url(/assets/logo.png) center no-repeat;
 }
+
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('/assets/fonts/OpenSans.woff2') format('woff2');
+  }
+* {
+    font-family: 'Source Sans Pro', sans-serif;
+  }

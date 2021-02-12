@@ -12,18 +12,14 @@
 
 <ion-content>
 
-  <ion-list *ngFor="let pedido of pedidos">
-    <ion-item (click)="muestraDetalle(pedido,i)">
-      <ion-label>{{pedido.fecha.seconds * 1000 | date:'dd/MM/yyyy'}}</ion-label>
-      <h3>{{pedido.precioTotal}} €</h3>
+  <ion-list *ngFor="let venta of ventas">
+    <ion-item (click)="muestraDetalle(venta,i)">
+      <ion-label>{{venta.fecha.seconds * 1000 | date:'dd/MM/yyyy'}}</ion-label>
+      <h3>{{venta.precioTotal}} €</h3>
     </ion-item>
     
   </ion-list>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="hacerCaja()">
-      <ion-icon name="cash"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+ 
 
 </ion-content>

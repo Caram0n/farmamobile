@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Caja, Pedido } from '../models/interface';
+import { Caja, Venta } from '../models/interface';
 import { Subject, Subscription, Observable } from 'rxjs';
 import { CameraResultType } from '@capacitor/core';
 import { FirebaseDbService } from './firebase-db.service';
@@ -54,8 +54,8 @@ export class CajaService {
     return this.caja$.asObservable();
   }
 
-  addVenta(ventaInput: Pedido){
-    const add: Pedido = ventaInput;
+  addVenta(ventaInput: Venta){
+    const add: Venta = ventaInput;
     this.caja.id=this.fechaCaja;
     this.caja.pedido.push(add);
     this.caja.totalCaja =  this.caja.totalCaja + ventaInput.precioTotal;

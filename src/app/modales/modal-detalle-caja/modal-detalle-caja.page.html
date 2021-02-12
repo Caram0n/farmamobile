@@ -11,10 +11,10 @@
 
 <ion-content>
  
-   <ion-list *ngFor="let pedido of caja.pedido">
+   <ion-list *ngFor="let venta of caja.pedido">
      <ion-item>
-      <ion-label>{{pedido.fecha.seconds * 1000 | date:'shortTime'}}</ion-label>
-      <h3>{{pedido.precioTotal}} €</h3>
+      <ion-label>{{venta.fecha.seconds * 1000 | date:'shortTime'}}</ion-label>
+      <h3>{{venta.precioTotal}} €</h3>
      </ion-item>
    </ion-list>
 
