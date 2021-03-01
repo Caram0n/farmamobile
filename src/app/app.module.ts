@@ -22,6 +22,13 @@ import { ModalDetalleHistoricoPageModule } from './modales/modal-detalle-histori
 import { ModalDetalleCajaPageModule } from './modales/modal-detalle-caja/modal-detalle-caja.module';
 import { ModalNuevoProveedorPageModule } from './modales/modal-nuevo-proveedor/modal-nuevo-proveedor.module';
 import { ModalDetalleProveedorPageModule } from './modales/modal-detalle-proveedor/modal-detalle-proveedor.module';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { ModalRegistroPageModule } from './modales/modal-registro/modal-registro.module';
+import { ModalDetallePedidoPageModule } from './modales/modal-detalle-pedido/modal-detalle-pedido.module';
+
 
 
 export const firebaseConfig = {
@@ -60,11 +67,19 @@ export const firebaseConfig = {
     ModalDetalleHistoricoPageModule,
     ModalDetalleCajaPageModule,
     ModalNuevoProveedorPageModule,
-    ModalDetalleProveedorPageModule
+    ModalDetalleProveedorPageModule,
+    ModalRegistroPageModule,
+    ModalDetallePedidoPageModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AngularFireAuth, ImgService
+    AngularFireAuth, 
+    ImgService,
+    File, 
+    FileOpener,
+    EmailComposer,
+    BarcodeScanner,
+
   ],
   bootstrap: [AppComponent]
 })

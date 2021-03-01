@@ -1,9 +1,37 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>modal-nuevo-usuario</ion-title>
+    <ion-buttons slot="start">
+      <ion-button text="" (click)="cerrarModal()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">Nuevo Usuario</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="background">
+  <ion-card>
+    <ion-card-content>
+      <form (ngSubmit)="guardaUser()">
+        <ion-item class="itemInput">
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input [(ngModel)]="user.nombre" name="nombre"></ion-input>
+        </ion-item>
+        
+        <ion-item class="itemInput">
+          <ion-label position="floating">Teléfono móvil</ion-label>
+          <ion-input [(ngModel)]="user.movil" name="movil"></ion-input>
+        </ion-item>
+        <ion-item class="itemInput">
+          <ion-label position="floating">DNI</ion-label>
+          <ion-input [(ngModel)]="user.dni" name="dni"></ion-input>
+        </ion-item>
+        <ion-button type="submit" expand="block">
+          Guardar
+          <ion-icon slot="start" name="save"></ion-icon>
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

@@ -20,7 +20,7 @@
       <h2>Rol: {{ usuario.rol }}</h2>
 
       <div class="ion-text-center">
-        <ion-button (click)="editar()" expand="block" type="submit" color="">
+        <ion-button (click)="editar()" expand="block" type="submit" color="" *ngIf="admin">
           Editar
           <ion-icon slot="start" name="create"></ion-icon>
         </ion-button>
@@ -63,15 +63,15 @@
             </ion-list-header>
             <ion-item>
               <ion-label>Farmacéutico</ion-label>
-              <ion-radio value="farmaceutico"></ion-radio>
+              <ion-radio value="Administrador"></ion-radio>
             </ion-item>
             <ion-item>
               <ion-label>Adjunto</ion-label>
-              <ion-radio value="adjunto"></ion-radio>
+              <ion-radio value="Farmacéutico"></ion-radio>
             </ion-item>
             <ion-item>
               <ion-label>Técnico</ion-label>
-              <ion-radio value="tecnico"></ion-radio>
+              <ion-radio value="Técnico"></ion-radio>
             </ion-item>
           </ion-radio-group>
         </ion-list>

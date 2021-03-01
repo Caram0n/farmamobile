@@ -27,9 +27,10 @@ export class HistoricoVentasPage implements OnInit {
 
 
   getVentas(){
-    const enlace = 'Pedidos';
+    const enlace = 'Ventas';
     this.dbFirebase.getCollectionSort<Venta>(enlace, 'fecha', 'desc').subscribe(res => {
       this.ventas = res;
+      console.log(this.ventas);
     });
   }
 

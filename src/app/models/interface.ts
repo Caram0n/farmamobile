@@ -18,13 +18,14 @@ export interface Usuario {
     movil: string;
     dni: string;
     password: string;
-    rol: string;
+    rol: Rol;
 }
 
 export interface Familia {
     codigo: string;
     descripcion: string;
     impuesto: number;
+    ganancia: number;
 }
 
 export interface Venta {
@@ -65,6 +66,15 @@ export interface ProductoProveedor {
     cantidad: number;
 }
 
+export interface Log {
+    id: string;
+    user: string;
+    fecha: Date;
+    accion: string;
+}
+
 export type Orden = 'asc' | 'desc' ;
+
+export type Rol = 'Administrador' | 'Farmacéutico' | 'Técnico';
 
 

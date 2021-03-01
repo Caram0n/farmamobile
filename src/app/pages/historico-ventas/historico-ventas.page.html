@@ -5,16 +5,14 @@
       </ion-menu-button>
     </ion-buttons>
     <ion-title color="primary">Histórico de Ventas</ion-title>
-  </ion-toolbar>
-  <ion-searchbar placeholder="Buscar producto" inputmode="text" (ionChange)="onSearchChange($event)" [debounce]="250"
-    animated></ion-searchbar>
+  </ion-toolbar>  
 </ion-header>
 
-<ion-content>
+<ion-content class="background">
 
   <ion-list *ngFor="let venta of ventas">
     <ion-item (click)="muestraDetalle(venta,i)">
-      <ion-label>{{venta.fecha.seconds * 1000 | date:'dd/MM/yyyy'}}</ion-label>
+      <ion-label color="primary">{{venta.fecha.seconds * 1000 | date:'short'}}</ion-label>
       <h3>{{venta.precioTotal}} €</h3>
     </ion-item>
     

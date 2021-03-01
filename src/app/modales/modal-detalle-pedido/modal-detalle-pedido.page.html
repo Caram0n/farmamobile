@@ -1,0 +1,23 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button text="" (click)="cerrarModal()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">Detalle del pedido</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="background">
+  <ion-list>
+    <ion-item *ngFor="let producto of pedido.productosP">
+      <ion-label color="primary">
+        <h1> {{producto.producto.descripcion}} </h1>
+      </ion-label>
+      <h1> {{producto.cantidad}} </h1>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

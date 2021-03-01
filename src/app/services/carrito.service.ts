@@ -12,9 +12,8 @@ export class CarritoService {
 
   private venta: Venta;
   venta$ = new Subject<Venta>();
-  path = 'carrito';
   uid = '';
-  usuario: Usuario;
+  usuario;
 
   usuarioSubscriber: Subscription;
   carritoSubscriber: Subscription;
@@ -31,12 +30,12 @@ export class CarritoService {
         this.uid = res.uid;
       }
     });
-    // this.loadCarrito();
+     this.loadUser();
   }
 
   loadUser() {
     const path = 'Usuarios';
-    this.usuarioSubscriber = this.dbFirebase.getDocument<Usuario>(path, this.uid).subscribe(res => {
+    this.usuarioSubscriber = this.dbFirebase.getCollectionQuery(path,'uid','==', this.uid).subscribe(res => {
       console.log('loadUser() ->', res);
       this.usuario = res;
       this.loadCarrito();
@@ -45,10 +44,13 @@ export class CarritoService {
   }
 
   loadCarrito() {
+    const enlace = 'Usuarios/' + this.uid + '/carrito';
+    console.log(enlace);
+
     if (this.carritoSubscriber) {
       this.carritoSubscriber.unsubscribe();
     }
-    this.carritoSubscriber = this.dbFirebase.getDocument<Venta>(this.path, this.uid).subscribe(res => {
+    this.carritoSubscriber = this.dbFirebase.getDocument<Venta>(enlace, this.uid).subscribe(res => {
       console.log(res);
       if (res) {
         this.venta = res;
@@ -78,6 +80,9 @@ export class CarritoService {
   }
 
   addProducto(productoInput: Producto) {
+
+    const enlace = 'Usuarios/' + this.uid + '/carrito';
+
     if (this.uid.length) {
       const item = this.venta.productos.find(productoVenta => {
         return (productoVenta.producto.codigo === productoInput.codigo)
@@ -98,13 +103,14 @@ export class CarritoService {
     this.venta$.next(this.venta);
     console.log(this.venta);
 
-    this.dbFirebase.createDocument(this.venta, this.path, this.uid).then(() => {
+    this.dbFirebase.createDocument(this.venta, enlace, this.uid).then(() => {
       console.log('guardado con éxito')
     });
 
   }
 
   removeProducto(producto: Producto) {
+    const enlace = 'Usuarios/' + this.uid + '/carrito';
     if (this.uid.length) {
       let position = 0;
       const item = this.venta.productos.find((productoVenta, index) => {
@@ -121,20 +127,19 @@ export class CarritoService {
 
         console.log(this.venta);
 
-        this.dbFirebase.createDocument(this.venta, this.path, this.uid).then(() => {
+        this.dbFirebase.createDocument(this.venta, enlace, this.uid).then(() => {
           console.log('Eliminado con éxito')
         });
       }
-
     }
-
   }
 
 
 
   clearCarrito() {
+    const enlace = 'Usuarios/' + this.uid + '/carrito';
     
-    this.dbFirebase.deleteDocument(this.path, this.uid).then(() => {
+    this.dbFirebase.deleteDocument(enlace, this.uid).then(() => {
       this.initCarrito();
     });
   }

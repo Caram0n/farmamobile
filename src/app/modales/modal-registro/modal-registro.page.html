@@ -1,11 +1,15 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title color="primary" class="ion-text-center">Login y Registro</ion-title>
+    <ion-buttons slot="start">
+      <ion-button text="" (click)="cerrarModal()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">Nuevo Usuario</ion-title>
   </ion-toolbar>
- </ion-header>
+</ion-header>
 
-
- <ion-content class="background">
+<ion-content class="background">
   <ion-list>
     <form>
       <ion-item>
@@ -22,11 +26,7 @@
         </ion-input>
       </ion-item>
       <div class = "ion-padding" >
-        <ion-button
-             (click) = "login()" type = "submit" color = "primary" expand = "block">
-          Login
-        </ion-button>
-  
+          
         <ion-button  (click) = "signin()" type = "submit" color = "secondary" expand = "block">
           Dar de alta
         </ion-button>
@@ -34,4 +34,3 @@
     </form>
   </ion-list>
  </ion-content>
-

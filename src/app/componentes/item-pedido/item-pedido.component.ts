@@ -15,11 +15,11 @@ export class ItemPedidoComponent implements OnInit {
 
   ngOnInit() {}
 
-
+  // LLama a una funcion del servicio para añadir un producto al pedido en curso
   addItem(){
     this.pedidoProveedorService.addProductoPedido(this.productoPedido.producto);
   }
-
+  // LLama a una funcion del servicio para añadir un producto al pedido en curso
   removeItem(){
     this.pedidoProveedorService.removeProductoPedido(this.productoPedido.producto);
   }

@@ -14,10 +14,10 @@
   <ion-card color="success" mode="ios" *ngIf="!edit">    
     <ion-card-content >
       <h1 >Descripción: {{familia.descripcion}}</h1>      
-      <h2>Impuestos: {{ familia.impuesto }}</h2>   
-
+      <h1>Impuestos: {{ familia.impuesto }} %</h1>
+      <h1>Beneficio: {{familia.ganancia}} %</h1>
       <div class="ion-text-center">
-        <ion-button (click)="editar()" expand="block" type="submit" color="">
+        <ion-button (click)="editar()" expand="block" type="submit" color="" *ngIf="admin || farma">
           Editar
           <ion-icon slot="start" name="create"></ion-icon>
         </ion-button>
@@ -38,6 +38,10 @@
       <ion-item class="itemInput" >
         <ion-label position="floating">Impuestos</ion-label>
         <ion-input [(ngModel)]="familia.impuesto" name="impuesto"></ion-input>
+      </ion-item>
+      <ion-item class="itemInput" >
+        <ion-label position="floating">Beneficios</ion-label>
+        <ion-input [(ngModel)]="familia.ganancia" name="ganancia"></ion-input>
       </ion-item>
      
       <ion-button (click)="guardarItem()" expand="block" shape="round">

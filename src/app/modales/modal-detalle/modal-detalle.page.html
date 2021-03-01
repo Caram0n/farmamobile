@@ -5,7 +5,7 @@
           <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
         </ion-button>
     </ion-buttons>
-    <ion-title color="primary">Detalle del producto</ion-title>
+    <ion-title color="primary" class="ion-text-center">Detalle del producto</ion-title>
   </ion-toolbar>
   
  </ion-header>
@@ -17,16 +17,16 @@
     <img [src]="producto.foto" *ngIf="producto.foto">
     <ion-card-content >
       <h1 >Descripción: {{producto.descripcion}}</h1>
-      <h2 >Código: {{producto.codigo}}</h2>      
-      <h2 >Precio de albarán: {{producto.precio_Alb}} €</h2>
-      <h2>Impuestos: {{ producto.impuestos }}</h2>
-      <h2>PVP: {{ producto.pvp }} €</h2>
-      <h2 >Stock: {{producto.stock}} unidades</h2>
-      <h2 >Fecha de caducidad: {{producto.fecha_cad.substr(0,9)}}</h2>
-      <h2 >Sinónimo: {{producto.sinonimo}}</h2>
+      <h1 >Código: {{producto.codigo}}</h1>
+      <h1 >Precio de albarán: {{producto.precio_Alb}} €</h1>
+      <h1>Impuestos: {{ producto.impuestos }}</h1>
+      <h1>PVP: {{ producto.pvp }} €</h1>
+      <h1 >Stock: {{producto.stock}} unidades</h1>
+      <h1>Fecha caducidad: {{producto.fecha_cad.substr(0,10)}}</h1>
+      <!-- <h1 >Sinónimo: {{producto.sinonimo}}</h1> -->
 
       <div class="ion-text-center">
-        <ion-button (click)="editar()" expand="block" type="submit">
+        <ion-button (click)="editar()" expand="block" type="submit" *ngIf="admin || farma">
           Editar
           <ion-icon slot="start" name="create"></ion-icon>
         </ion-button>
@@ -37,7 +37,7 @@
 
 
 
-  <ion-card *ngIf="edit">
+  <ion-card *ngIf="edit" >
     <ion-card-header>
       <h1>{{producto.descripcion}}</h1>
     </ion-card-header>

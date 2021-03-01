@@ -9,11 +9,11 @@
   </ion-toolbar>
  </ion-header>
 
-<ion-content>
+<ion-content class="background">
  
    <ion-list *ngFor="let venta of caja.pedido">
      <ion-item>
-      <ion-label>{{venta.fecha.seconds * 1000 | date:'shortTime'}}</ion-label>
+      <ion-label color="primary">{{venta.fecha.seconds * 1000 | date:'shortTime'}}</ion-label>
       <h3>{{venta.precioTotal}} €</h3>
      </ion-item>
    </ion-list>

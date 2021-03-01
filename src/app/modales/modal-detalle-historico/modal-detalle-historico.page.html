@@ -9,14 +9,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card *ngFor="let producto of productos">
+<ion-content class="background">
+  <ion-card color="success" *ngFor="let producto of productos">
     <ion-card-content>
-      <h2>{{producto.producto.descripcion}}</h2>
-      <h2>Cantidad: {{producto.cantidad}}</h2>
-      <h2>PVP: {{producto.producto.pvp}} €</h2>
+      <h1>{{producto.producto.descripcion}}</h1>
+      <h1>Cantidad: {{producto.cantidad}}</h1>
+      <h1>PVP: {{producto.producto.pvp}} €</h1>
     </ion-card-content>
   </ion-card>
-  <h1>TOTAL: {{venta.precioTotal}} €</h1>
+  
 
 </ion-content>
+
+<ion-footer color="success">
+  <h1 class="ion-text-center" >TOTAL: {{venta.precioTotal}} €</h1>
+</ion-footer>

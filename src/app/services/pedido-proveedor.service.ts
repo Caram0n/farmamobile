@@ -4,6 +4,8 @@ import { Subject, Subscription, Observable } from 'rxjs';
 import { FirebaseDbService } from './firebase-db.service';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import { File } from '@ionic-native/file/ngx';
+import { EmailComposer } from '@ionic-native/email-composer/ngx'
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,9 @@ export class PedidoProveedorService {
   private pedidoP: PedidoProveedores;
   pedidoP$ = new Subject<PedidoProveedores>();
   path = 'pedidoEnCurso';
+  id = 'pedidoEnCurso'
   uid = '';
-  usuario: Usuario;
+  usuario;
 
   usuarioSubscriber: Subscription;
   pedidoProveedorSubscriber: Subscription;
@@ -23,7 +26,9 @@ export class PedidoProveedorService {
   constructor(
     public auth: AuthService,
     public dbFirebase: FirebaseDbService,
-    public router: Router
+    public router: Router,
+    public file: File,
+    public emailComposer: EmailComposer
   ) {
     this.initPedido();
     this.auth.stateAuth().subscribe(res => {
@@ -31,17 +36,19 @@ export class PedidoProveedorService {
       if (res !== null) {
         this.uid = res.uid;
         this.loadUser();
+        this.loadPedido();
       }
     });
+    
 
   }
 
   loadUser() {
     const path = 'Usuarios';
-    this.usuarioSubscriber = this.dbFirebase.getDocument<Usuario>(path, this.uid).subscribe(res => {
+    this.usuarioSubscriber = this.dbFirebase.getDocument(path, this.uid).subscribe(res => {
       console.log('loadUser() ->', res);
       this.usuario = res;
-      this.loadPedido();
+
       this.usuarioSubscriber.unsubscribe();
     });
   }
@@ -51,14 +58,15 @@ export class PedidoProveedorService {
     if (this.pedidoProveedorSubscriber) {
       this.pedidoProveedorSubscriber.unsubscribe();
     }
-    this.pedidoProveedorSubscriber = this.dbFirebase.getDocument<PedidoProveedores>(this.path, this.uid).subscribe(res => {
-      console.log(res);
+    this.pedidoProveedorSubscriber = this.dbFirebase.getDocument<PedidoProveedores>(this.path, this.id).subscribe(res => {
+      //console.log(res);
       if (res) {
         this.pedidoP = res;
+        console.log('pedido', this.pedidoP);
         this.pedidoP$.next(this.pedidoP);
-      } else {
-        this.initPedido();
-      }
+       } //else {
+      //   this.initPedido();
+      // }
     });
 
   }
@@ -66,7 +74,7 @@ export class PedidoProveedorService {
 
   initPedido() {
     this.pedidoP = {
-      id: this.uid,
+      id: this.id,
       productosP: [],
       precioTotal: null,
       fecha: new Date()
@@ -78,13 +86,17 @@ export class PedidoProveedorService {
       this.pedidoP$.next(this.pedidoP);
     }, 100);
     return this.pedidoP$.asObservable();
+
   }
 
 
   addProductoPedido(productoInput: Producto) {
     const item = this.pedidoP.productosP.find(productoP => {
       return (productoP.producto.codigo === productoInput.codigo)
+
     });
+    console.log('producto ->', productoInput)
+    console.log('item ->', item);
     if (item !== undefined) {
       item.cantidad++;
     } else {
@@ -97,7 +109,7 @@ export class PedidoProveedorService {
     this.pedidoP$.next(this.pedidoP);
     console.log(this.pedidoP);
 
-    this.dbFirebase.createDocument(this.pedidoP, this.path, this.uid).then(() => {
+    this.dbFirebase.createDocument(this.pedidoP, this.path, this.id).then(() => {
       console.log('Guardado con éxito')
     });
   }
@@ -106,17 +118,19 @@ export class PedidoProveedorService {
     let position = 0;
     const item = this.pedidoP.productosP.find((productoP, index) => {
       position = index;
-      return(productoP.producto.codigo === producto.codigo)
+      return (productoP.producto.codigo === producto.codigo)
     });
-    if(item !== undefined){
+    console.log('producto ->', producto)
+    console.log('item ->', item);
+    if (item !== undefined) {
       item.cantidad--;
-      if(item.cantidad === 0){
-        this.pedidoP.productosP.splice(position,1);
+      if (item.cantidad === 0) {
+        this.pedidoP.productosP.splice(position, 1);
       }
 
       console.log(this.pedidoP);
 
-      this.dbFirebase.createDocument(this.pedidoP,this.path,this.uid).then(() => {
+      this.dbFirebase.createDocument(this.pedidoP, this.path, this.id).then(() => {
         console.log('Eliminado con éxito');
       });
     }
@@ -128,4 +142,6 @@ export class PedidoProveedorService {
       this.initPedido();
     });
   }
+
+
 }

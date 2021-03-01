@@ -8,7 +8,11 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AuthService {
 
-  constructor(public afAuth: AngularFireAuth, public asf: AngularFirestore) { 
+  constructor(
+    public afAuth: AngularFireAuth,
+     public asf: AngularFirestore,
+     
+     ) { 
     this.getUid();
   }
 
@@ -39,7 +43,9 @@ export class AuthService {
   }
 
   stateAuth(){
-    return this.afAuth.authState;
-    
+    return this.afAuth.authState;    
   }
+
+
+  
 }

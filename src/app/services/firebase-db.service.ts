@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Orden } from '../models/interface';
@@ -9,7 +9,10 @@ import { Orden } from '../models/interface';
 })
 export class FirebaseDbService {
 
-  constructor(public asf: AngularFirestore, public auth: AuthService) { }
+  constructor(
+    public asf: AngularFirestore, 
+    public auth: AuthService
+    ) { }
 
   createDocument<tipo>(data: tipo, enlace: string, id: string) {
     const ref = this.asf.collection<tipo>(enlace);
@@ -36,7 +39,7 @@ export class FirebaseDbService {
     return ref.doc(id).valueChanges();
   }
 
-
+  
   updateDocument(data: any, enlace: string, id: string){
     const ref = this.asf.collection(enlace);
     return ref.doc(id).update(data);

@@ -9,15 +9,15 @@
   </ion-toolbar>
  </ion-header>
 
-<ion-content>
-  <ion-card *ngIf="!edit">
+<ion-content class="background">
+  <ion-card color="success" *ngIf="!edit" mode="ios">
     <ion-card-content>
-      <h2>CIF: {{proveedor.cif}}</h2>
-      <h2>Dirección: {{proveedor.direccion}}</h2>
-      <h2>Teléfono: {{proveedor.telefono}}</h2>
-      <h2>Correo electrónico: {{proveedor.correo}}</h2>
+      <h1>CIF: {{proveedor.cif}}</h1>
+      <h1>Dirección: {{proveedor.direccion}}</h1>
+      <h1>Teléfono: {{proveedor.telefono}}</h1>
+      <h1>Correo electrónico: {{proveedor.correo}}</h1>
       <div class="ion-text-center">
-        <ion-button (click)="editar()" expand="block" type="submit">
+        <ion-button (click)="editar()" expand="block" type="submit" *ngIf="admin || farma">
           Editar
           <ion-icon slot="start" name="create"></ion-icon>
         </ion-button>

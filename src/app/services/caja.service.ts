@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Caja, Venta } from '../models/interface';
 import { Subject, Subscription, Observable } from 'rxjs';
-import { CameraResultType } from '@capacitor/core';
 import { FirebaseDbService } from './firebase-db.service';
 
 @Injectable({

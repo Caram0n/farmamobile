@@ -13,21 +13,66 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div *ngFor="let producto of pedidoP.productos">
-    <app-item-carrito [productoPedido]="producto"></app-item-carrito>
+<ion-content class="background">
+  <ion-segment value="curso" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="curso">
+      <ion-label>En Curso</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="historico">
+      <ion-label>Histórico</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="!muestraPedido">
+    <ion-card color="primary" *ngFor="let producto of pedidoP.productosP">
+      <ion-item color="secondary">
+        <ion-label class="subtitulo ion-text-wrap">{{producto.producto.descripcion}}</ion-label>
+        <ion-buttons slot="end">
+          <ion-button (click)="addItem(producto.producto)" class="icon-add">
+            <ion-icon slot="icon-only" name="add"></ion-icon>
+          </ion-button>
+          <ion-button (click)="removeItem(producto.producto)" class="icon-remove">
+            <ion-icon slot="icon-only" name="remove"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+      <p class="normal m-3">Precio: {{producto.producto.precio_Alb}} € </p>
+      <p class="normal m-3">Cantidad: {{producto.cantidad}}</p>
+    </ion-card>
+  </div>
+
+
+
+
+
+
+  <div *ngIf="muestraPedido">
+    <ion-card *ngFor="let pedido of pedidos ; let i = index" class="ion-no-border">
+      <ion-card-content>
+        <ion-item (click)="muestraDetalle(pedido,i)">
+          <ion-label color="primary">{{pedido.fecha.seconds * 1000 | date: 'dd/MM/yyyy'}}</ion-label>
+          <h3>{{pedido.precioTotal}} €</h3>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
   </div>
 </ion-content>
 
-<ion-footer>
+
+<ion-footer *ngIf="!muestraPedido">
   <ion-grid class="ion-justify-content-center">
-    <ion-row >
-      <ion-col class="normal text-center" size="6" style="border-right: 1px solid #6c757d;"><h2><strong>Cantidad: {{cantidad}}</strong></h2>   </ion-col>
-      <ion-col class="normal text-center" size="6"><h2><strong>Total: {{total}} €</strong></h2>  </ion-col>
+    <ion-row>
+      <ion-col class="normal text-center" size="6" style="border-right: 1px solid #6c757d;">
+        <h2><strong>Cantidad: {{cantidad}}</strong></h2>
+      </ion-col>
+      <ion-col class="normal text-center" size="6">
+        <h2><strong>Total: {{total}} €</strong></h2>
+      </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-button (click)="pedir()" expand="block"  shape="round" color="primary">
+  <ion-button (click)="lanzarPedido()" expand="block" shape="round" color="primary" *ngIf="admin || farma">
     Enviar pedido
   </ion-button>
 </ion-footer>

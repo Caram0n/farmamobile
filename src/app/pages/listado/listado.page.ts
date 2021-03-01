@@ -1,12 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ModalController, AlertController, ToastController } from '@ionic/angular';
+import { ModalController, AlertController, ToastController, Platform } from '@ionic/angular';
 import { FirebaseDbService } from '../../services/firebase-db.service';
 import { ModalNuevoItemPage } from '../../modales/modal-nuevo-item/modal-nuevo-item.page';
 import { ModalDetallePage } from '../../modales/modal-detalle/modal-detalle.page';
 import { CarritoService } from '../../services/carrito.service';
-import { Producto, Familia } from '../../models/interface';
+import { Producto, Familia, Usuario, Log } from '../../models/interface';
 import { Subscription } from 'rxjs';
 import { PedidoProveedorService } from '../../services/pedido-proveedor.service';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { AuthService } from '../../services/auth.service';
+import { LogService } from '../../services/log.service';
+
+
+
 
 
 @Component({
@@ -15,6 +21,15 @@ import { PedidoProveedorService } from '../../services/pedido-proveedor.service'
   styleUrls: ['./listado.page.scss'],
 })
 export class ListadoPage implements OnInit, OnDestroy {
+
+
+  uid = '';
+  usuario;
+  usuarioSubscriber: Subscription;
+  admin: boolean = false;
+  farma: boolean = false;
+  tecnico: boolean = false;
+
 
   descending: boolean = false;
   order: number;
@@ -33,13 +48,49 @@ export class ListadoPage implements OnInit, OnDestroy {
     public dbFirebase: FirebaseDbService,
     public toastCtrl: ToastController,
     public carritoService: CarritoService,
-    public pedidoService: PedidoProveedorService
-  ) { }
+    public pedidoService: PedidoProveedorService,
+    private barcodeScanner: BarcodeScanner,
+    public auth: AuthService,
+    public logService: LogService
+
+  ) {
+    this.auth.stateAuth().subscribe(res => {
+      console.log(res);
+      if (res !== null) {
+        this.uid = res.uid;
+        console.log(res.uid);
+        this.loadUser();
+      }
+    });
+
+  }
 
   ngOnInit() {
     //this.getItems();
     this.getFamilia();
 
+  }
+
+  
+
+
+  loadUser() {
+    const path = 'Usuarios';
+    this.usuarioSubscriber = this.dbFirebase.getDocument(path, this.uid).subscribe(res => {
+      console.log('loadUser() ->', res);
+      this.usuario = res;
+      this.usuarioSubscriber.unsubscribe();
+
+      if (this.usuario.rol === 'Administrador') {
+        this.admin = true;
+      }
+      if (this.usuario.rol === 'Farmaceutico') {
+        this.farma = true;
+      }
+      if (this.usuario.rol === 'Tecnico') {
+        this.tecnico = true;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -49,7 +100,7 @@ export class ListadoPage implements OnInit, OnDestroy {
   }
 
 
-
+  
   nuevoItem() {
     this.modalCtrl.create({
       component: ModalNuevoItemPage,
@@ -60,6 +111,7 @@ export class ListadoPage implements OnInit, OnDestroy {
       });
       modal.present();
     });
+    
   }
 
   getItems() {
@@ -81,7 +133,7 @@ export class ListadoPage implements OnInit, OnDestroy {
     });
   }
 
-  async deleteItem(item: Producto) {
+  async deleteItem(item: Producto, slidingItem) {
 
     const alert = await this.alertCtrl.create({
       header: 'Confirmar borrado',
@@ -96,12 +148,23 @@ export class ListadoPage implements OnInit, OnDestroy {
       }, {
         text: "Sí",
         handler: () => {
-          this.dbFirebase.deleteDocument<Producto>('Items', item.codigo).then(() => this.presentToast('El item se eliminó con éxito', 2000));
+          this.dbFirebase.deleteDocument<Producto>('Items', item.codigo).then(() => {
+            this.presentToast('El producto se eliminó con éxito', 2000)
+            const accion: string = 'Ha eliminado el producto ' + item.descripcion;
+            this.logService.addLog(this.usuario.nombre, accion);
+
+          }, (err) => {
+            console.log("Se ha producido un error", err);
+            this.presentToast("Se ha producido un error" + err, 3000);
+            this.logService.addError(err);
+          })
           console.log('hecho');
         }
       }]
     });
     await alert.present();
+    slidingItem.close();
+   // this.getItems();
 
   }
 
@@ -125,16 +188,19 @@ export class ListadoPage implements OnInit, OnDestroy {
       duration: tiempo
     });
     toast.present();
+    
   }
 
-
-  addCarrito(item: Producto) {
+  //añade un producto a la venta
+  addCarrito(item: Producto, slidingItem) {
     this.carritoService.addProducto(item);
+    slidingItem.close();
   }
 
-
-  addPedido(item: Producto) {
+//añade un producto al pedido a proveedores
+  addPedido(item: Producto, slidingItem) {
     this.pedidoService.addProductoPedido(item);
+    slidingItem.close();
   }
 
   onSearchChange(event) {
@@ -142,7 +208,7 @@ export class ListadoPage implements OnInit, OnDestroy {
     this.textoBuscar = event.detail.value;
   }
 
-
+  //busca los productos segun el segment en el que nos encontremos 
   segmentChanged(ev: any) {
     console.log(ev.detail.value);
     this.items = [];
@@ -155,6 +221,18 @@ export class ListadoPage implements OnInit, OnDestroy {
       }
     });
   }
+
+
+  // scan() {
+  //   this.barcodeScanner.scan().then(barcodeData => {
+  //     console.log('Barcode data', barcodeData);
+  //   }).catch(err => {
+  //     console.log('Error', err);
+  //   });
+  // }
+
+
+
 
 
 }

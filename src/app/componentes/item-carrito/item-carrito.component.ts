@@ -14,10 +14,11 @@ export class ItemCarritoComponent implements OnInit {
 
   ngOnInit() {}
 
-
+  // LLama a una funcion del servicio para añadir un producto a la venta
   addCarrito(){
     this.carritoService.addProducto(this.productoVenta.producto);
   }
+  // LLama a una funcion del servicio para eliminar un producto a la venta
   removeCarrito(){
     this.carritoService.removeProducto(this.productoVenta.producto);
   }
